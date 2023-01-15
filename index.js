@@ -47,10 +47,20 @@ button:hover {
   background-color: #555;
 }
 </style>
+    <a href="/en"><h1 style="font-family: 'Courier New', monospace;
+  color: white;">Click For Encryption Page<h1></a>
     <form action="/decrypt" method="post" enctype="multipart/form-data">
       <input type="file" name="file" />
       <br />
       <input type="text" name="aesKey" placeholder="AES Key" />
+      <br />
+      <input type="fileS" name="fileS" style="font-family: 'Courier New', monospace;
+  color: white;
+  background-color: #444;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;" placeholder="File Ext."/>
       <br />
       <button type="submit">Decrypt</button>
     </form>
@@ -97,6 +107,8 @@ button:hover {
   background-color: #555;
 }
 </style>
+    <a href="./"><h1 style="font-family: 'Courier New', monospace;
+  color: white;">Click For Decryption Page<h1></a>
     <form action="/encrypt" method="post" enctype="multipart/form-data">
       <input type="file" name="file" />
       <br />
@@ -134,6 +146,7 @@ app.post('/decrypt', upload.single('file'), (req, res) => {
   // get the file and the aes key from the request
   const file = req.file;
   const aesKey = req.body.aesKey;
+  const ext = req.body.fileS;
 
   // get the encrypted file contents as a hexadecimal string
   const encrypted = file.buffer.toString('utf8');
@@ -150,8 +163,7 @@ app.post('/decrypt', upload.single('file'), (req, res) => {
   const decoded2 = Buffer.from(decoded1, 'base64')
 
   // prompt the user to download the decrypted file as a text file
-  res.setHeader('Content-disposition', 'attachment; filename=decrypted.zip');
-  res.setHeader('Content-type', 'application/zip');
+  res.setHeader('Content-disposition', 'attachment; filename=decrypted.' + ext);
   res.send(Buffer.from(decoded2, 'binary'));
 });
 
